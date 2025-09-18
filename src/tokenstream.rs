@@ -3,6 +3,7 @@ use std::collections::HashMap;
 
 
 /// A generic TokenStream struct that manages a stream of tokens with cursor and bookmark functionality.
+#[derive(Debug, Clone)]
 pub struct TokenStream<T> {
     data: Vec<T>,
     cursor: usize,
