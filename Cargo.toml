@@ -1,0 +1,7 @@
+[package]
+name = "slk_tokenstream"
+version = "0.1.0"
+edition = "2024"
+authors = ["Slacker201 <slacker1234567809@gmail.com>"]
+
+[dependencies]
