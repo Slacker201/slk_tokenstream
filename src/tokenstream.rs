@@ -38,7 +38,11 @@ impl<T> TokenStream<T> {
     }
     /// Moves the cursor back by one position, ensuring it doesn't go below zero.
     pub fn rewind(&mut self) {
-        self.cursor = self.cursor.saturating_sub(1);
+        self.rewind_offset(1);
+    }
+    /// Rewinds the cursor a specified amount of times, ensuring it doesn't go below zero.
+    pub fn rewind_offset(&mut self, offset: usize) {
+        self.cursor = self.cursor.saturating_sub(offset);
     }
     /// Sets the cursor to a specific position, clamping it within the bounds of the data vector.
     pub fn set_cursor(&mut self, position: usize) {
