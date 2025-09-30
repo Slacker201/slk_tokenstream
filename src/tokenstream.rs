@@ -36,11 +36,11 @@ impl<T> TokenStream<T> {
     pub fn peek_offset(&self, offset: usize) -> Option<&T> {
         self.data.get(self.cursor + offset)
     }
-    /// Moves the cursor back by one position, ensuring it doesn't go below zero.
+    /// Moves the cursor back by one position, saturating at 0.
     pub fn rewind(&mut self) {
         self.rewind_offset(1);
     }
-    /// Rewinds the cursor a specified amount of times, ensuring it doesn't go below zero.
+    /// Rewinds the cursor a specified amount of times, saturating at 0.
     pub fn rewind_offset(&mut self, offset: usize) {
         self.cursor = self.cursor.saturating_sub(offset);
     }
@@ -52,7 +52,7 @@ impl<T> TokenStream<T> {
     pub fn register_bookmark(&mut self, name: String) {
         self.bookmarks.insert(name, self.cursor);
     }
-    /// Moves the cursor to the position of a previously registered bookmark by name. Returns true if successful, false if the bookmark doesn't exist.
+    /// Moves the cursor to the position of a previously registered bookmark by name. Returns the previous position if the bookmark is found.
     pub fn goto_bookmark(&mut self, name: &str) -> Option<usize> {
         if let Some(&position) = self.bookmarks.get(name) {
             let prev_pos = self.cursor;
