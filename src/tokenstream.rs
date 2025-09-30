@@ -62,6 +62,10 @@ impl<T> TokenStream<T> {
             None
         }
     }
+    /// Removes the specified bookmark and returns whether it was found
+    pub fn remove_bookmark(&mut self, bookmark: &str) -> bool {
+        self.bookmarks.remove(bookmark).is_some()
+    }
     /// Returns the current position of the cursor.
     pub fn cursor(&self) -> usize {
         self.cursor
