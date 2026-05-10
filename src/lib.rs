@@ -1,5 +1,6 @@
 
 pub mod tokenstream;
+mod bookmark;
 
 #[cfg(test)]
 mod tests {
@@ -41,15 +42,14 @@ mod tests {
     fn bookmarks_work() {
         let mut ts = tokenstream::TokenStream::new(vec![1, 2, 3]);
         ts.consume();
-        ts.register_bookmark("first".to_string());
+        let mark = ts.mark();
         ts.consume();
-        ts.register_bookmark("second".to_string());
+        let mark2 = ts.mark();
         ts.consume();
-        assert_eq!(ts.goto_bookmark("first"), Some(3));
+        assert_eq!(ts.reset(&mark), Some(3));
         assert_eq!(ts.consume(), Some(&2));
-        assert_eq!(ts.goto_bookmark("second"), Some(2));
+        assert_eq!(ts.reset(&mark2), Some(2));
         assert_eq!(ts.consume(), Some(&3));
-        assert_eq!(ts.goto_bookmark("nonexistent"), None);
     }
 
 }

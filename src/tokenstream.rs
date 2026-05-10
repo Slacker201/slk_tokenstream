@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use crate::bookmark::Mark;
+
 
 
 /// A generic TokenStream struct that manages a stream of tokens with cursor and bookmark functionality.
@@ -7,7 +9,8 @@ use std::collections::HashMap;
 pub struct TokenStream<T> {
     data: Vec<T>,
     cursor: usize,
-    bookmarks: HashMap<String, usize>,
+    bookmarks: HashMap<u64, usize>,
+    previous_bookmark: u64,
 }
 
 
@@ -18,6 +21,7 @@ impl<T> TokenStream<T> {
             data,
             cursor: 0,
             bookmarks: HashMap::new(),
+            previous_bookmark: 0,
         }
     }
     /// Advances the cursor and returns the next token if available, otherwise returns None.
@@ -48,13 +52,16 @@ impl<T> TokenStream<T> {
     pub fn set_cursor(&mut self, position: usize) {
         self.cursor = position.min(self.data.len());
     }
-    /// Registers a bookmark at the current cursor position with the given name.
-    pub fn register_bookmark(&mut self, name: String) {
-        self.bookmarks.insert(name, self.cursor);
+    /// Registers a bookmark at the current cursor position and returns a handle.
+    pub fn mark(&mut self) -> Mark {
+        let mark = Mark::new(self.previous_bookmark);
+        self.bookmarks.insert(self.previous_bookmark, self.cursor);
+        self.previous_bookmark += 1;
+        mark
     }
-    /// Moves the cursor to the position of a previously registered bookmark by name. Returns the previous position if the bookmark is found.
-    pub fn goto_bookmark(&mut self, name: &str) -> Option<usize> {
-        if let Some(&position) = self.bookmarks.get(name) {
+    /// Moves the cursor to the position of a previously registered bookmark by handle. Returns the previous position if the bookmark is found.
+    pub fn reset(&mut self, bookmark: &Mark) -> Option<usize> {
+        if let Some(&position) = self.bookmarks.get(&bookmark.id) {
             let prev_pos = self.cursor;
             self.cursor = position;
             Some(prev_pos)
@@ -63,8 +70,8 @@ impl<T> TokenStream<T> {
         }
     }
     /// Removes the specified bookmark and returns whether it was found
-    pub fn remove_bookmark(&mut self, bookmark: &str) -> bool {
-        self.bookmarks.remove(bookmark).is_some()
+    pub fn remove_mark(&mut self, bookmark: Mark) -> bool {
+        self.bookmarks.remove(&bookmark.id).is_some()
     }
     /// Returns the current position of the cursor.
     pub fn cursor(&self) -> usize {
