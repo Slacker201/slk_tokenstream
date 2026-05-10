@@ -1,15 +1,15 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::{Arc, atomic::AtomicU64}};
 
-use crate::bookmark::Mark;
+use crate::bookmark::{Inner, Mark};
 
 
 
 /// A generic TokenStream struct that manages a stream of tokens with cursor and bookmark functionality.
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct TokenStream<T> {
     data: Vec<T>,
     cursor: usize,
-    bookmarks: HashMap<u64, usize>,
+    bookmarks: HashMap<Inner, usize>,
     previous_bookmark: u64,
 }
 
@@ -55,13 +55,13 @@ impl<T> TokenStream<T> {
     /// Registers a bookmark at the current cursor position and returns a handle.
     pub fn mark(&mut self) -> Mark {
         let mark = Mark::new(self.previous_bookmark);
-        self.bookmarks.insert(self.previous_bookmark, self.cursor);
+        self.bookmarks.insert(mark.inner.clone(), self.cursor);
         self.previous_bookmark += 1;
         mark
     }
     /// Moves the cursor to the position of a previously registered bookmark by handle. Returns the previous position if the bookmark is found.
     pub fn reset(&mut self, bookmark: &Mark) -> Option<usize> {
-        if let Some(&position) = self.bookmarks.get(&bookmark.id) {
+        if let Some(&position) = self.bookmarks.get(&bookmark.inner) {
             let prev_pos = self.cursor;
             self.cursor = position;
             Some(prev_pos)
@@ -71,7 +71,19 @@ impl<T> TokenStream<T> {
     }
     /// Removes the specified bookmark and returns whether it was found
     pub fn remove_mark(&mut self, bookmark: Mark) -> bool {
-        self.bookmarks.remove(&bookmark.id).is_some()
+        self.bookmarks.remove(&bookmark.inner).is_some()
+    }
+    /// Removes unused bookmarks
+    pub fn clean_bookmarks(&mut self) {
+        let mut items_to_remove = Vec::with_capacity(self.bookmarks.len());
+        for item in &self.bookmarks {
+            if item.0.tracker_val() == 0 {
+                items_to_remove.push(item.0.id());
+            }
+        }
+        for id in items_to_remove {
+            self.bookmarks.remove(&id.into());
+        }
     }
     /// Returns the current position of the cursor.
     pub fn cursor(&self) -> usize {
