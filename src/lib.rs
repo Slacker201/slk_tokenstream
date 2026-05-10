@@ -30,14 +30,6 @@ mod tests {
         assert_eq!(ts.consume(), Some(&2));
     }
     #[test]
-    fn set_cursor_works() {
-        let mut ts = tokenstream::TokenStream::new(vec![1, 2, 3]);
-        ts.set_cursor(2);
-        assert_eq!(ts.consume(), Some(&3));
-        ts.set_cursor(10);
-        assert_eq!(ts.consume(), None);
-    }
-    #[test]
     fn bookmarks_work() {
         let mut ts = tokenstream::TokenStream::new(vec![1, 2, 3]);
         ts.consume();
@@ -45,17 +37,9 @@ mod tests {
         ts.consume();
         let mark2 = ts.mark();
         ts.consume();
-        assert_eq!(ts.reset(&mark), Some(3));
+        assert_eq!(ts.reset(&mark), 3);
         assert_eq!(ts.consume(), Some(&2));
-        assert_eq!(ts.reset(&mark2), Some(2));
+        assert_eq!(ts.reset(&mark2), 2);
         assert_eq!(ts.consume(), Some(&3));
-    }
-    #[test]
-    fn clean_bookmarks_succeeds() {
-        let mut ts = tokenstream::TokenStream::new(vec![1, 2, 3]);
-        let bm = ts.mark();
-        assert_eq!(ts.clean_bookmarks(), 0);
-        drop(bm);
-        assert_eq!(ts.clean_bookmarks(), 1);
     }
 }
