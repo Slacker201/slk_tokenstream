@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::{Arc, atomic::AtomicU64}};
+use std::{collections::HashMap};
 
 use crate::bookmark::{Inner, Mark};
 
@@ -75,15 +75,9 @@ impl<T> TokenStream<T> {
     }
     /// Removes unused bookmarks
     pub fn clean_bookmarks(&mut self) {
-        let mut items_to_remove = Vec::with_capacity(self.bookmarks.len());
-        for item in &self.bookmarks {
-            if item.0.tracker_val() == 0 {
-                items_to_remove.push(item.0.id());
-            }
-        }
-        for id in items_to_remove {
-            self.bookmarks.remove(&id.into());
-        }
+        self.bookmarks.retain(|key, _value| {
+            key.tracker_val() != 0
+        });
     }
     /// Returns the current position of the cursor.
     pub fn cursor(&self) -> usize {
