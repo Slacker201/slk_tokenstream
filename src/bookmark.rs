@@ -1,6 +1,6 @@
 
 
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
+#[derive(Debug)]
 pub struct Mark {
     pub id: u64,
 }
