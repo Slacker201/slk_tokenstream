@@ -50,4 +50,12 @@ mod tests {
         assert_eq!(ts.reset(&mark2), Some(2));
         assert_eq!(ts.consume(), Some(&3));
     }
+    #[test]
+    fn clean_bookmarks_succeeds() {
+        let mut ts = tokenstream::TokenStream::new(vec![1, 2, 3]);
+        let bm = ts.mark();
+        assert_eq!(ts.clean_bookmarks(), 0);
+        drop(bm);
+        assert_eq!(ts.clean_bookmarks(), 1);
+    }
 }

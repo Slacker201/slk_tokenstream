@@ -70,9 +70,11 @@ impl<T> TokenStream<T> {
     pub fn remove_mark(&mut self, bookmark: Mark) -> bool {
         self.bookmarks.remove(&bookmark.inner).is_some()
     }
-    /// Removes unused bookmarks
-    pub fn clean_bookmarks(&mut self) {
-        self.bookmarks.retain(|key, _value| key.strong_count() != 0);
+    /// Removes unused bookmarks and returns the amount cleaned.
+    pub fn clean_bookmarks(&mut self) -> usize {
+        let original_length = self.bookmarks.len();
+        self.bookmarks.retain(|key, _value| key.strong_count() > 1);
+        original_length - self.bookmarks.len()
     }
     /// Returns the current position of the cursor.
     pub fn cursor(&self) -> usize {
