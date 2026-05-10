@@ -1,6 +1,5 @@
-
-pub mod tokenstream;
 mod bookmark;
+pub mod tokenstream;
 
 #[cfg(test)]
 mod tests {
@@ -51,5 +50,4 @@ mod tests {
         assert_eq!(ts.reset(&mark2), Some(2));
         assert_eq!(ts.consume(), Some(&3));
     }
-
 }

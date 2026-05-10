@@ -1,8 +1,6 @@
-use std::{collections::HashMap};
+use std::collections::HashMap;
 
 use crate::bookmark::{Inner, Mark};
-
-
 
 /// A generic TokenStream struct that manages a stream of tokens with cursor and bookmark functionality.
 #[derive(Debug)]
@@ -12,7 +10,6 @@ pub struct TokenStream<T> {
     bookmarks: HashMap<Inner, usize>,
     previous_bookmark: u64,
 }
-
 
 impl<T> TokenStream<T> {
     /// Creates a new TokenStream from a vector of tokens. Sets cursor to 0 and initializes an empty bookmark map.
@@ -75,9 +72,7 @@ impl<T> TokenStream<T> {
     }
     /// Removes unused bookmarks
     pub fn clean_bookmarks(&mut self) {
-        self.bookmarks.retain(|key, _value| {
-            key.tracker_val() != 0
-        });
+        self.bookmarks.retain(|key, _value| key.strong_count() != 0);
     }
     /// Returns the current position of the cursor.
     pub fn cursor(&self) -> usize {
@@ -85,7 +80,10 @@ impl<T> TokenStream<T> {
     }
 }
 
-impl<T> Iterator for TokenStream<T> where T: Clone {
+impl<T> Iterator for TokenStream<T>
+where
+    T: Clone,
+{
     type Item = T;
 
     fn next(&mut self) -> Option<Self::Item> {
