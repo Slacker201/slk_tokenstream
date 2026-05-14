@@ -313,13 +313,11 @@ impl<'a, T> TokenStream<'a, T> {
     /// assert_eq!(token_stream.peek_while(|token| *token < 3), &[1, 2]);
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// ```
-    pub fn peek_while<F: Fn(&T) -> bool>(&mut self, f: F) -> &[T] {
-        let m1 = self.mark();
-        while self.expect(&f).is_some() {}
-        let m2 = self.mark();
-        self.reset(&m1);
-        let slice = self.slice_from_marks(&m1, &m2);
-        slice
+    pub fn peek_while<F: Fn(&T) -> bool>(&self, f: F) -> &[T] {
+        let len = self.data[self.cursor..]
+            .iter().filter(|item| f(item))
+            .count();
+        &self.data[self.cursor..self.cursor + len]
     }
     /// Advances the cursor 1 step
     /// 
