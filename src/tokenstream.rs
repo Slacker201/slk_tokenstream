@@ -159,7 +159,7 @@ impl<T> TokenStream<T> {
     /// assert_eq!(token_stream.tokens_remaining(), 1);
     /// ```
     pub fn tokens_remaining(&self) -> usize {
-        self.data.len() - self.cursor
+        self.data.len().saturating_sub(self.cursor)
     }
     /// Returns if the current token is the end of file
     /// 
@@ -178,7 +178,7 @@ impl<T> TokenStream<T> {
     pub fn is_eof(&self) -> bool {
         self.peek().is_none()
     }
-    /// Returns a slice which starts on mark_1 and ends on mark_2
+    /// Returns a slice which starts on the earliest mark and ends on the latest.
     /// 
     /// # Examples
     /// 
@@ -193,8 +193,11 @@ impl<T> TokenStream<T> {
     /// assert_eq!(token_stream.slice_from_marks(&mark_1, &mark_2), &[1, 2, 3]);
     /// ```
     pub fn slice_from_marks(&self, mark_1: &Mark, mark_2: &Mark) -> &[T] {
-        let idx_1 = mark_1.idx();
-        let idx_2 = mark_2.idx();
+        let mut idx_1 = mark_1.idx();
+        let mut idx_2 = mark_2.idx();
+        if idx_1 >= idx_2 {
+            std::mem::swap(&mut idx_1, &mut idx_2);
+        }
         &self.data[idx_1..idx_2]
     }
     /// Advances the cursor by specified amount
