@@ -2,10 +2,10 @@
 /// 
 /// # Examples
 /// ``` rust
-/// use tokenstream::tokenstream::TokenStream;
-/// use tokenstream::bookmark::Mark;
+/// use slk_tokenstream::TokenStream;
+/// use slk_tokenstream::Mark;
 /// 
-/// let tokens = vec![1, 2, 3];
+/// let tokens = &[1, 2, 3];
 /// let mut token_stream = TokenStream::new(tokens);
 /// let mark: Mark = token_stream.mark();
 /// 
@@ -29,10 +29,10 @@ impl Mark {
     /// # Example
     /// 
     /// ```
-    /// use tokenstream::bookmark::Mark;
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use slk_tokenstream::Mark;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let mut token_stream = TokenStream::new(vec![0; 12]);
+    /// let mut token_stream = TokenStream::new(&[0; 12]);
     /// token_stream.advance(12);
     /// 
     ///

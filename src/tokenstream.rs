@@ -5,10 +5,10 @@ use crate::bookmark::Mark;
 /// # Examples
 ///
 /// ``` rust
-/// use tokenstream::TokenStream;
-/// use tokenstream::Mark;
+/// use slk_tokenstream::TokenStream;
+/// use slk_tokenstream::Mark;
 /// 
-/// let tokens = vec![1, 2, 3];
+/// let tokens = &[1, 2, 3];
 /// let mut token_stream = TokenStream::new(tokens);
 ///
 /// assert_eq!(token_stream.consume(), Some(&1));
@@ -27,9 +27,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.peek(), Some(&1));
@@ -44,9 +44,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.consume(), Some(&1));
@@ -61,9 +61,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.peek(), Some(&1));
@@ -76,9 +76,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.peek(), Some(&1));
@@ -92,9 +92,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.consume(), Some(&1));
@@ -108,9 +108,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.consume(), Some(&1));
@@ -127,9 +127,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark = token_stream.mark();
     /// 
@@ -145,9 +145,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark = token_stream.mark();
     /// 
@@ -166,9 +166,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.tokens_remaining(), 3);
@@ -185,9 +185,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert!(!token_stream.is_eof());
@@ -204,9 +204,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark_1 = token_stream.mark();
     /// token_stream.advance(3);
@@ -230,9 +230,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// token_stream.advance(2);
@@ -246,9 +246,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.peek_if(|token| *token == 1), Some(&1));
@@ -265,9 +265,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.expect(|token| *token == 1), Some(&1));
@@ -285,9 +285,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.consume_while(|token| *token < 3), &[1, 2]);
@@ -305,9 +305,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.peek_while(|token| *token < 3), &[1, 2]);
@@ -326,9 +326,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// token_stream.skip();
@@ -344,9 +344,9 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
+    /// use slk_tokenstream::TokenStream;
     /// 
-    /// let tokens = vec![1, 2, 3];
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// token_stream.skip_if(|token| *token == 1);
@@ -366,8 +366,8 @@ impl<'a, T> TokenStream<'a, T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::TokenStream;
-    /// let tokens = vec![1, 2, 3];
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
     /// assert_eq!(token_stream.position(), 0);
