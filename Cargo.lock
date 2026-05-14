@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "slk_tokenstream"
+name = "tokenstream"
 version = "0.3.0"

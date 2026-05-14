@@ -1,4 +1,4 @@
-mod bookmark;
+pub mod bookmark;
 pub mod tokenstream;
 
 #[cfg(test)]

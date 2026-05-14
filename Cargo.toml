@@ -1,5 +1,5 @@
 [package]
-name = "slk_tokenstream"
+name = "tokenstream"
 version = "0.3.0"
 edition = "2024"
 authors = ["Slacker201 <slacker1234567809@gmail.com>"]
