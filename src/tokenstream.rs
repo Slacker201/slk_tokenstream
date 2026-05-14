@@ -5,8 +5,9 @@ use crate::bookmark::Mark;
 /// # Examples
 ///
 /// ``` rust
-/// use tokenstream::tokenstream::TokenStream;
-/// use tokenstream::bookmark::Mark;
+/// use tokenstream::TokenStream;
+/// use tokenstream::Mark;
+/// 
 /// let tokens = vec![1, 2, 3];
 /// let mut token_stream = TokenStream::new(tokens);
 ///
@@ -26,9 +27,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// assert_eq!(token_stream.peek_offset(1), Some(&2));
     /// assert_eq!(token_stream.peek_offset(2), Some(&3));
@@ -41,9 +44,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.consume(), Some(&2));
     /// assert_eq!(token_stream.consume(), Some(&3));
@@ -56,9 +61,11 @@ impl<T> TokenStream<T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// ```
     pub fn peek(&self) -> Option<&T> {
@@ -69,9 +76,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// assert_eq!(token_stream.peek_offset(1), Some(&2));
     /// assert_eq!(token_stream.peek_offset(2), Some(&3));
@@ -83,9 +92,11 @@ impl<T> TokenStream<T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// token_stream.rewind();
     /// assert_eq!(token_stream.consume(), Some(&1));
@@ -97,9 +108,11 @@ impl<T> TokenStream<T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.consume(), Some(&2));
     /// assert_eq!(token_stream.consume(), Some(&3));
@@ -114,10 +127,12 @@ impl<T> TokenStream<T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark = token_stream.mark();
+    /// 
     /// token_stream.advance(5);
     /// assert_eq!(token_stream.peek(), None);
     /// token_stream.reset(&mark);
@@ -130,10 +145,12 @@ impl<T> TokenStream<T> {
     /// 
     /// # Examples
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark = token_stream.mark();
+    /// 
     /// token_stream.advance(3);
     /// assert_eq!(token_stream.peek(), None);
     /// assert_eq!(token_stream.reset(&mark), 3);
@@ -149,9 +166,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.tokens_remaining(), 3);
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.tokens_remaining(), 2);
@@ -166,9 +185,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert!(!token_stream.is_eof());
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.consume(), Some(&2));
@@ -183,7 +204,8 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark_1 = token_stream.mark();
@@ -208,9 +230,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// token_stream.advance(2);
     /// assert_eq!(token_stream.peek(), Some(&3));
     /// ```
@@ -222,9 +246,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.peek_if(|token| *token == 1), Some(&1));
     /// assert_eq!(token_stream.peek_if(|token| *token == 2), None);
     /// ```
@@ -239,9 +265,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.expect(|token| *token == 1), Some(&1));
     /// assert_eq!(token_stream.expect(|token| *token == 2), Some(&2));
     /// ```
@@ -257,9 +285,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.consume_while(|token| *token < 3), &[1, 2]);
     /// assert_eq!(token_stream.peek(), Some(&3));
     /// ```
@@ -275,9 +305,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.peek_while(|token| *token < 3), &[1, 2]);
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// ```
@@ -294,9 +326,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// token_stream.skip();
     /// assert_eq!(token_stream.peek(), Some(&2));
     /// token_stream.skip();
@@ -310,9 +344,11 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
+    /// 
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// token_stream.skip_if(|token| *token == 1);
     /// assert_eq!(token_stream.peek(), Some(&2));
     /// token_stream.skip_if(|token| *token == 1);
@@ -330,9 +366,10 @@ impl<T> TokenStream<T> {
     /// # Examples
     /// 
     /// ``` rust
-    /// use tokenstream::tokenstream::TokenStream;
+    /// use tokenstream::TokenStream;
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
+    /// 
     /// assert_eq!(token_stream.position(), 0);
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.position(), 1);
