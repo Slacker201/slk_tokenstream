@@ -141,7 +141,7 @@ impl<T> TokenStream<T> {
     /// ```
     pub fn reset(&mut self, bookmark: &Mark) -> usize {
         let old = self.cursor;
-        self.cursor = bookmark.idx();
+        self.cursor = bookmark.position();
         old
     }
     /// Returns the amount of tokens remaining, including the current token
@@ -194,8 +194,8 @@ impl<T> TokenStream<T> {
     /// assert_eq!(token_stream.slice_from_marks(&mark_2, &mark_1), &[1, 2, 3]);
     /// ```
     pub fn slice_from_marks(&self, mark_1: &Mark, mark_2: &Mark) -> &[T] {
-        let mut idx_1 = mark_1.idx();
-        let mut idx_2 = mark_2.idx();
+        let mut idx_1 = mark_1.position();
+        let mut idx_2 = mark_2.position();
         if idx_1 >= idx_2 {
             std::mem::swap(&mut idx_1, &mut idx_2);
         }

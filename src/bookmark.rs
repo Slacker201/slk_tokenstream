@@ -1,15 +1,15 @@
 #[derive(Debug)]
 pub struct Mark {
-    idx: usize,
+    position: usize,
 }
 
 impl Mark {
-    /// Creates a new mark with the provided id
-    pub(crate) fn new(idx: usize) -> Self {
-        Self { idx }
+    /// Creates a new mark with the position
+    pub(crate) fn new(position: usize) -> Self {
+        Self { position }
     }
-    /// Returns the stored index
-    pub fn idx(&self) -> usize {
-        self.idx
+    /// Returns the position
+    pub fn position(&self) -> usize {
+        self.position
     }
 }
