@@ -315,7 +315,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// ```
     pub fn peek_while<F: Fn(&T) -> bool>(&self, f: F) -> &[T] {
         let len = self.data[self.cursor..]
-            .iter().filter(|item| f(item))
+            .iter().take_while(|item| f(item))
             .count();
         &self.data[self.cursor..self.cursor + len]
     }
