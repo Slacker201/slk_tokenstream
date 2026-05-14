@@ -86,7 +86,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// assert_eq!(token_stream.peek_offset(2), Some(&3));
     /// ```
     pub fn peek_offset(&self, offset: usize) -> Option<&T> {
-        self.data.get(self.cursor + offset)
+        self.data.get(self.cursor.saturating_add(offset))
     }
     /// Moves the cursor back by one position, saturating at zero.
     /// 
@@ -239,7 +239,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// assert_eq!(token_stream.peek(), Some(&3));
     /// ```
     pub fn advance(&mut self, offset: usize) {
-        self.cursor = self.data.len().min(self.cursor + offset);
+        self.cursor = self.data.len().min(self.cursor.saturating_add(offset));
     }
     /// Returns the next item if it exists and the closure returns true
     /// 
