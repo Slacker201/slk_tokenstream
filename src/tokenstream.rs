@@ -191,6 +191,7 @@ impl<T> TokenStream<T> {
     /// let mark_2 = token_stream.mark();
     /// 
     /// assert_eq!(token_stream.slice_from_marks(&mark_1, &mark_2), &[1, 2, 3]);
+    /// assert_eq!(token_stream.slice_from_marks(&mark_2, &mark_1), &[1, 2, 3]);
     /// ```
     pub fn slice_from_marks(&self, mark_1: &Mark, mark_2: &Mark) -> &[T] {
         let mut idx_1 = mark_1.idx();
