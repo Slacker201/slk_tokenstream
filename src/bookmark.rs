@@ -3,9 +3,12 @@
 /// # Examples
 /// ``` rust
 /// use tokenstream::tokenstream::TokenStream;
+/// use tokenstream::bookmark::Mark;
+/// 
 /// let tokens = vec![1, 2, 3];
 /// let mut token_stream = TokenStream::new(tokens);
-/// let mark = token_stream.mark();
+/// let mark: Mark = token_stream.mark();
+/// 
 /// token_stream.advance(5);
 /// assert_eq!(token_stream.peek(), None);
 /// token_stream.reset(&mark);
@@ -31,6 +34,8 @@ impl Mark {
     /// 
     /// let mut token_stream = TokenStream::new(vec![0; 12]);
     /// token_stream.advance(12);
+    /// 
+    ///
     /// assert_eq!(token_stream.mark().position(), 12);
     /// ```
     pub fn position(&self) -> usize {
