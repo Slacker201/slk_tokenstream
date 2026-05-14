@@ -358,6 +358,24 @@ impl<'a, T> TokenStream<'a, T> {
             None => {}
         }
     }
+    /// Advances the cursor until the closure returns false
+    /// 
+    /// # Examples
+    /// 
+    /// ``` rust
+    /// use slk_tokenstream::TokenStream;
+    /// 
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// 
+    /// token_stream.skip_while(|token| *token < 3);
+    /// assert_eq!(token_stream.peek(), Some(&3));
+    /// ```
+    pub fn skip_while<F: Fn(&T) -> bool>(&mut self, f: F) {
+        while self.peek_if(&f).is_some() {
+            self.advance(1);
+        }
+    }
 
     /// Returns the current position of the cursor
     /// 
