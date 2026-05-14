@@ -222,7 +222,7 @@ impl<T> TokenStream<T> {
     /// let tokens = vec![1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// assert_eq!(token_stream.peek_if(|token| *token == 1), Some(&1));
-    /// assert_eq!(token_stream.peek_if(|token| *token == 2), Some(&2));
+    /// assert_eq!(token_stream.peek_if(|token| *token == 2), None);
     /// ```
     pub fn peek_if<F: Fn(&T) -> bool>(&self, f: F) -> Option<&T> {
         match self.peek() {
@@ -319,5 +319,25 @@ impl<T> TokenStream<T> {
             Some(_) => self.skip(),
             None => {}
         }
+    }
+
+    /// Returns the current position of the cursor
+    /// 
+    /// # Examples
+    /// 
+    /// ``` rust
+    /// use tokenstream::tokenstream::TokenStream;
+    /// let tokens = vec![1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// assert_eq!(token_stream.position(), 0);
+    /// assert_eq!(token_stream.consume(), Some(&1));
+    /// assert_eq!(token_stream.position(), 1);
+    /// assert_eq!(token_stream.consume(), Some(&2));
+    /// assert_eq!(token_stream.position(), 2);
+    /// assert_eq!(token_stream.consume(), Some(&3));
+    /// assert_eq!(token_stream.position(), 3);
+    /// ```
+    pub fn position(&self) -> usize {
+        self.cursor
     }
 }

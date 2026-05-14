@@ -9,7 +9,7 @@ impl Mark {
         Self { idx }
     }
     /// Returns the stored index
-    pub(crate) fn idx(&self) -> usize {
+    pub fn idx(&self) -> usize {
         self.idx
     }
 }
