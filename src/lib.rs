@@ -1,3 +1,5 @@
+#![no_std]
+
 pub mod bookmark;
 pub mod tokenstream;
 mod tests;

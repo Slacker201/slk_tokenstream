@@ -16,12 +16,12 @@ use crate::bookmark::Mark;
 /// assert_eq!(token_stream.tokens_remaining(), 2);
 /// ```
 #[derive(Debug)]
-pub struct TokenStream<T> {
-    data: Vec<T>,
+pub struct TokenStream<'a, T> {
+    data: &'a [T],
     cursor: usize,
 }
 
-impl<T> TokenStream<T> {
+impl<'a, T> TokenStream<'a, T> {
     /// Creates a new TokenStream from a vector of tokens. Sets cursor to 0.
     /// 
     /// # Examples
@@ -36,7 +36,7 @@ impl<T> TokenStream<T> {
     /// assert_eq!(token_stream.peek_offset(1), Some(&2));
     /// assert_eq!(token_stream.peek_offset(2), Some(&3));
     /// ```
-    pub fn new(data: Vec<T>) -> Self {
+    pub fn new(data: &'a [T]) -> Self {
         TokenStream { data, cursor: 0 }
     }
     /// Advances the cursor and returns the next token if available, otherwise returns None.
@@ -219,7 +219,7 @@ impl<T> TokenStream<T> {
         let mut idx_1 = mark_1.position();
         let mut idx_2 = mark_2.position();
         if idx_1 >= idx_2 {
-            std::mem::swap(&mut idx_1, &mut idx_2);
+            core::mem::swap(&mut idx_1, &mut idx_2);
         }
         &self.data[idx_1..idx_2]
     }
