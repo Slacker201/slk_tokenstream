@@ -10,4 +10,4 @@ A generic, `no_std` compatible Rust library for efficient token stream managemen
 - Bookmarking
 - Fully generic
 
-This project is licensed under either the MIT license or the Apache License, Version 2.0.
+This project is licensed under the MIT licence.
