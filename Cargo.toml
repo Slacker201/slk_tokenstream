@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "A small crate for handling look ahead, consumption, and otherwise manipulating an array of tokens"
 authors = ["Slacker201 <slacker1234567809@gmail.com>"]
+license = "MIT OR Apache-2.0"
+
 
 [dependencies]
