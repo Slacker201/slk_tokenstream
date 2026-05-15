@@ -5,6 +5,9 @@ edition = "2024"
 description = "A small crate for handling look ahead, consumption, and otherwise manipulating an array of tokens"
 authors = ["Slacker201 <slacker1234567809@gmail.com>"]
 license = "MIT"
-
+repository = "https://github.com/slacker201/slk-tokenstream"
+documentation = "https://docs.rs/slk-tokenstream"
+keywords = ["token", "lexer", "parser", "tokenstream"]
+categories = ["parsing"]
 
 [dependencies]
