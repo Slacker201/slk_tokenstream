@@ -270,10 +270,10 @@ impl<'a, T> TokenStream<'a, T> {
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// 
-    /// assert_eq!(token_stream.expect(|token| *token == 1), Some(&1));
-    /// assert_eq!(token_stream.expect(|token| *token == 2), Some(&2));
+    /// assert_eq!(token_stream.consume_if(|token| *token == 1), Some(&1));
+    /// assert_eq!(token_stream.consume_if(|token| *token == 2), Some(&2));
     /// ```
-    pub fn expect<F: Fn(&T) -> bool>(&mut self, f: F) -> Option<&T> {
+    pub fn consume_if<F: Fn(&T) -> bool>(&mut self, f: F) -> Option<&T> {
         let ok = match self.peek() {
             Some(v) if f(v) => true,
             _ => false,
@@ -295,7 +295,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// ```
     pub fn consume_while<F: Fn(&T) -> bool>(&mut self, f: F) -> &[T] {
         let m1 = self.mark();
-        while self.expect(&f).is_some() {}
+        while self.consume_if(&f).is_some() {}
         let m2 = self.mark();
         let slice = self.slice_from_marks(&m1, &m2);
         slice
