@@ -2,6 +2,7 @@
 
 pub mod bookmark;
 pub mod tokenstream;
+pub mod span;
 #[cfg(test)]
 mod tests;
 

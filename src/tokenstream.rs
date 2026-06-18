@@ -1,4 +1,4 @@
-use crate::bookmark::Mark;
+use crate::{bookmark::Mark, span::TokenstreamSpan};
 
 /// A generic TokenStream struct that manages a stream of tokens with cursor and bookmark functionality.
 ///
@@ -199,7 +199,7 @@ impl<'a, T> TokenStream<'a, T> {
     pub fn is_eof(&self) -> bool {
         self.peek().is_none()
     }
-    /// Returns a slice which starts on the earliest mark and ends on the latest.
+    /// Returns a slice from a span
     /// 
     /// # Examples
     /// 
@@ -212,15 +212,13 @@ impl<'a, T> TokenStream<'a, T> {
     /// token_stream.advance(3);
     /// let mark_2 = token_stream.mark();
     /// 
-    /// assert_eq!(token_stream.slice_from_marks(&mark_1, &mark_2), &[1, 2, 3]);
-    /// assert_eq!(token_stream.slice_from_marks(&mark_2, &mark_1), &[1, 2, 3]);
+    /// let span = token_stream.span_from_marks(mark_1, mark_2);
+    /// 
+    /// assert_eq!(token_stream.slice_from_span(&span), &[1, 2, 3]);
     /// ```
-    pub fn slice_from_marks(&self, mark_1: &Mark, mark_2: &Mark) -> &[T] {
-        let mut idx_1 = mark_1.position();
-        let mut idx_2 = mark_2.position();
-        if idx_1 >= idx_2 {
-            core::mem::swap(&mut idx_1, &mut idx_2);
-        }
+    pub fn slice_from_span(&self, span: &TokenstreamSpan<'a>) -> &[T] {
+        let idx_1 = span.start().position();
+        let idx_2 = span.end().position();
         &self.data[idx_1..idx_2]
     }
     /// Advances the cursor by specified amount
@@ -297,7 +295,7 @@ impl<'a, T> TokenStream<'a, T> {
         let m1 = self.mark();
         while self.consume_if(&f).is_some() {}
         let m2 = self.mark();
-        let slice = self.slice_from_marks(&m1, &m2);
+        let slice = self.slice_from_span(&self.span_from_marks(m1, m2));
         slice
     }
     /// Returns a slice of items starting from the cursor and ending when the closure returns false. The cursor remains in the original position
@@ -396,5 +394,26 @@ impl<'a, T> TokenStream<'a, T> {
     /// ```
     pub fn position(&self) -> usize {
         self.cursor
+    }
+
+    /// Creates a span from two marks
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// 
+    /// let m1 = token_stream.mark();
+    /// token_stream.consume();
+    /// let m2 = token_stream.mark();
+    /// 
+    /// let span = token_stream.span_from_marks(m1, m2);
+    /// 
+    /// assert_eq!(token_stream.slice_from_span(&span), &[1]);
+    /// ```
+    pub fn span_from_marks(&self, start: Mark, end: Mark) -> TokenstreamSpan<'a> {
+        TokenstreamSpan::new(start, end)
     }
 }
