@@ -1,3 +1,5 @@
+use core::marker::PhantomData;
+
 /// A mark struct used to mark positions in a `TokenStream` for backtracking    
 /// 
 /// # Examples
@@ -15,14 +17,15 @@
 /// assert_eq!(token_stream.peek(), Some(&1));
 /// ```
 #[derive(Debug, Copy, Clone)]
-pub struct Mark {
+pub struct Mark<'a> {
     position: usize,
+    _lifetime: PhantomData<&'a ()>,
 }
 
-impl Mark {
+impl<'a> Mark<'a> {
     /// Creates a new mark with the position
     pub(crate) fn new(position: usize) -> Self {
-        Self { position }
+        Self { position, _lifetime: PhantomData }
     }
     /// Returns the position
     /// 

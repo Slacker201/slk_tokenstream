@@ -5,13 +5,16 @@ use crate::Mark;
 
 
 pub struct TokenstreamSpan<'a> {
-    start: Mark,
-    end: Mark,
+    start: Mark<'a>,
+    end: Mark<'a>,
     _lifetime: PhantomData<&'a ()>
 }
 
 impl<'a> TokenstreamSpan<'a> {
-    pub fn new(start: Mark, end: Mark) -> Self {
+    pub fn new(mut start: Mark<'a>, mut end: Mark<'a>) -> Self {
+        if start.position() > end.position() {
+            core::mem::swap(&mut start, &mut end);
+        }
         Self { start, end, _lifetime: PhantomData }
     }
     pub fn start(&self) -> Mark {

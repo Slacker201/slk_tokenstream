@@ -8,3 +8,4 @@ mod tests;
 
 pub use tokenstream::TokenStream;
 pub use bookmark::Mark;
+pub use span::TokenstreamSpan;
