@@ -17,10 +17,10 @@ impl<'a> TokenstreamSpan<'a> {
         }
         Self { start, end, _lifetime: PhantomData }
     }
-    pub fn start(&self) -> Mark {
+    pub fn start(&self) -> Mark<'a> {
         self.start
     }
-    pub fn end(&self) -> Mark {
+    pub fn end(&self) -> Mark<'a> {
         self.end
     }
 }
