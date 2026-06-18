@@ -17,15 +17,14 @@ use core::marker::PhantomData;
 /// assert_eq!(token_stream.peek(), Some(&1));
 /// ```
 #[derive(Debug, Copy, Clone)]
-pub struct Mark<'a> {
+pub struct Mark {
     position: usize,
-    _lifetime: PhantomData<&'a ()>,
 }
 
-impl<'a> Mark<'a> {
+impl Mark {
     /// Creates a new mark with the position
     pub(crate) fn new(position: usize) -> Self {
-        Self { position, _lifetime: PhantomData }
+        Self { position }
     }
     /// Returns the position
     /// 

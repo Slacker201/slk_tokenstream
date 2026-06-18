@@ -138,7 +138,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// token_stream.reset(&mark);
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// ```
-    pub fn mark(&self) -> Mark<'a> {
+    pub fn mark(&self) -> Mark {
         Mark::new(self.cursor)
     }
     /// Moves the cursor to the position of a previously registered bookmark by handle and returns the previous position
@@ -216,7 +216,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// assert_eq!(token_stream.slice_from_span(&span), &[1, 2, 3]);
     /// ```
-    pub fn slice_from_span(&self, span: &TokenstreamSpan<'a>) -> &[T] {
+    pub fn slice_from_span(&self, span: &TokenstreamSpan) -> &[T] {
         let idx_1 = span.start().position();
         let idx_2 = span.end().position();
         &self.data[idx_1..idx_2]
@@ -413,7 +413,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// 
     /// assert_eq!(token_stream.slice_from_span(&span), &[1]);
     /// ```
-    pub fn span_from_marks(&self, start: Mark<'a>, end: Mark<'a>) -> TokenstreamSpan<'a> {
+    pub fn span_from_marks(&self, start: Mark, end: Mark) -> TokenstreamSpan {
         TokenstreamSpan::new(start, end)
     }
 }
