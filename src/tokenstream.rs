@@ -416,4 +416,12 @@ impl<'a, T> TokenStream<'a, T> {
     pub fn span_from_marks(&self, start: Mark, end: Mark) -> TokenstreamSpan {
         TokenstreamSpan::new(start, end)
     }
+
+    pub unsafe fn set_cursor_unchecked(&mut self, new_value: usize) {
+        self.cursor = new_value;
+    }
+
+    pub fn set_cursor(&mut self, new_value: usize) {
+        self.cursor = new_value.min(self.data.len());
+    }
 }

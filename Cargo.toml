@@ -1,6 +1,6 @@
 [package]
 name = "slk-tokenstream"
-version = "0.4.0"
+version = "0.4.1"
 edition = "2024"
 description = "A small crate for handling look ahead, consumption, and otherwise manipulating an array of tokens"
 authors = ["Slacker201 <slacker1234567809@gmail.com>"]
