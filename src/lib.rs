@@ -1,11 +1,11 @@
 #![no_std]
 
 pub mod bookmark;
-pub mod tokenstream;
 pub mod span;
 #[cfg(test)]
 mod tests;
+pub mod tokenstream;
 
-pub use tokenstream::TokenStream;
 pub use bookmark::Mark;
 pub use span::TokenstreamSpan;
+pub use tokenstream::TokenStream;

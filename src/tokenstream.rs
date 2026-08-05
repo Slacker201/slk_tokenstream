@@ -7,7 +7,7 @@ use crate::{bookmark::Mark, span::TokenstreamSpan};
 /// ``` rust
 /// use slk_tokenstream::TokenStream;
 /// use slk_tokenstream::Mark;
-/// 
+///
 /// let tokens = &[1, 2, 3];
 /// let mut token_stream = TokenStream::new(tokens);
 ///
@@ -23,15 +23,15 @@ pub struct TokenStream<'a, T> {
 
 impl<'a, T> TokenStream<'a, T> {
     /// Creates a new TokenStream from a vector of tokens. Sets cursor to 0.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// assert_eq!(token_stream.peek_offset(1), Some(&2));
     /// assert_eq!(token_stream.peek_offset(2), Some(&3));
@@ -40,15 +40,15 @@ impl<'a, T> TokenStream<'a, T> {
         TokenStream { data, cursor: 0 }
     }
     /// Advances the cursor and returns the next token if available, otherwise returns None.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.consume(), Some(&2));
     /// assert_eq!(token_stream.consume(), Some(&3));
@@ -58,29 +58,29 @@ impl<'a, T> TokenStream<'a, T> {
         self.data.get(self.cursor).inspect(|_| self.cursor += 1)
     }
     /// Peeks at the token at the current cursor position without advancing the cursor.
-    /// 
+    ///
     /// # Examples
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// ```
     pub fn peek(&self) -> Option<&T> {
         self.peek_offset(0)
     }
     /// Peeks at the current cursor position plus an offset without advancing the cursor.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// assert_eq!(token_stream.peek_offset(1), Some(&2));
     /// assert_eq!(token_stream.peek_offset(2), Some(&3));
@@ -89,14 +89,14 @@ impl<'a, T> TokenStream<'a, T> {
         self.data.get(self.cursor.saturating_add(offset))
     }
     /// Moves the cursor back by one position, saturating at zero.
-    /// 
+    ///
     /// # Examples
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// token_stream.rewind();
     /// assert_eq!(token_stream.consume(), Some(&1));
@@ -105,14 +105,14 @@ impl<'a, T> TokenStream<'a, T> {
         self.rewind_offset(1);
     }
     /// Rewinds the cursor a specified amount of times, saturating at 0.
-    /// 
+    ///
     /// # Examples
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.consume(), Some(&2));
     /// assert_eq!(token_stream.consume(), Some(&3));
@@ -124,15 +124,15 @@ impl<'a, T> TokenStream<'a, T> {
         self.cursor = self.cursor.saturating_sub(offset);
     }
     /// Returns a mark to the current cursor position.
-    /// 
+    ///
     /// # Examples
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark = token_stream.mark();
-    /// 
+    ///
     /// token_stream.advance(5);
     /// assert_eq!(token_stream.peek(), None);
     /// token_stream.reset(&mark);
@@ -142,15 +142,15 @@ impl<'a, T> TokenStream<'a, T> {
         Mark::new(self.cursor)
     }
     /// Moves the cursor to the position of a previously registered bookmark by handle and returns the previous position
-    /// 
+    ///
     /// # Examples
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark = token_stream.mark();
-    /// 
+    ///
     /// token_stream.advance(3);
     /// assert_eq!(token_stream.peek(), None);
     /// assert_eq!(token_stream.reset(&mark), 3);
@@ -162,15 +162,15 @@ impl<'a, T> TokenStream<'a, T> {
         old
     }
     /// Returns the amount of tokens remaining, including the current token
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.tokens_remaining(), 3);
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.tokens_remaining(), 2);
@@ -181,15 +181,15 @@ impl<'a, T> TokenStream<'a, T> {
         self.data.len().saturating_sub(self.cursor)
     }
     /// Returns if the current token is the end of file
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert!(!token_stream.is_eof());
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.consume(), Some(&2));
@@ -200,20 +200,20 @@ impl<'a, T> TokenStream<'a, T> {
         self.peek().is_none()
     }
     /// Returns a slice from a span
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
     /// let mark_1 = token_stream.mark();
     /// token_stream.advance(3);
     /// let mark_2 = token_stream.mark();
-    /// 
+    ///
     /// let span = token_stream.span_from_marks(mark_1, mark_2);
-    /// 
+    ///
     /// assert_eq!(token_stream.slice_from_span(&span), &[1, 2, 3]);
     /// ```
     pub fn slice_from_span(&self, span: &TokenstreamSpan) -> &[T] {
@@ -224,15 +224,15 @@ impl<'a, T> TokenStream<'a, T> {
     /// Advances the cursor by specified amount
     ///
     /// Cursor is clamped to the length of the data
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// token_stream.advance(2);
     /// assert_eq!(token_stream.peek(), Some(&3));
     /// ```
@@ -240,15 +240,15 @@ impl<'a, T> TokenStream<'a, T> {
         self.cursor = self.data.len().min(self.cursor.saturating_add(offset));
     }
     /// Returns the next item if it exists and the closure returns true
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.peek_if(|token| *token == 1), Some(&1));
     /// assert_eq!(token_stream.peek_if(|token| *token == 2), None);
     /// ```
@@ -259,15 +259,15 @@ impl<'a, T> TokenStream<'a, T> {
         }
     }
     /// Returns the next item and advances the cursor if the item exists and the closure returns true
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.consume_if(|token| *token == 1), Some(&1));
     /// assert_eq!(token_stream.consume_if(|token| *token == 2), Some(&2));
     /// ```
@@ -279,15 +279,15 @@ impl<'a, T> TokenStream<'a, T> {
         if ok { self.consume() } else { None }
     }
     /// Returns a slice of items starting from the cursor and ending when the closure returns false. The cursor remains on the first item failing the test
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.consume_while(|token| *token < 3), &[1, 2]);
     /// assert_eq!(token_stream.peek(), Some(&3));
     /// ```
@@ -299,34 +299,35 @@ impl<'a, T> TokenStream<'a, T> {
         slice
     }
     /// Returns a slice of items starting from the cursor and ending when the closure returns false. The cursor remains in the original position
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.peek_while(|token| *token < 3), &[1, 2]);
     /// assert_eq!(token_stream.peek(), Some(&1));
     /// ```
     pub fn peek_while<F: Fn(&T) -> bool>(&self, f: F) -> &[T] {
         let len = self.data[self.cursor..]
-            .iter().take_while(|item| f(item))
+            .iter()
+            .take_while(|item| f(item))
             .count();
         &self.data[self.cursor..self.cursor + len]
     }
     /// Advances the cursor 1 step
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// token_stream.skip();
     /// assert_eq!(token_stream.peek(), Some(&2));
     /// token_stream.skip();
@@ -336,15 +337,15 @@ impl<'a, T> TokenStream<'a, T> {
         self.advance(1);
     }
     /// Advances the cursor one step if the closure returns true
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// token_stream.skip_if(|token| *token == 1);
     /// assert_eq!(token_stream.peek(), Some(&2));
     /// token_stream.skip_if(|token| *token == 1);
@@ -357,15 +358,15 @@ impl<'a, T> TokenStream<'a, T> {
         }
     }
     /// Advances the cursor until the closure returns false
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
-    /// 
+    ///
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// token_stream.skip_while(|token| *token < 3);
     /// assert_eq!(token_stream.peek(), Some(&3));
     /// ```
@@ -376,14 +377,14 @@ impl<'a, T> TokenStream<'a, T> {
     }
 
     /// Returns the current position of the cursor
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ``` rust
     /// use slk_tokenstream::TokenStream;
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// assert_eq!(token_stream.position(), 0);
     /// assert_eq!(token_stream.consume(), Some(&1));
     /// assert_eq!(token_stream.position(), 1);
@@ -396,31 +397,87 @@ impl<'a, T> TokenStream<'a, T> {
         self.cursor
     }
 
-    /// Creates a span from two marks
-    /// 
+    /// An alias of position.
+    /// Returns the current position of the cursor
+    ///
     /// # Examples
-    /// 
+    ///
+    /// ``` rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    ///
+    /// assert_eq!(token_stream.cursor(), 0);
+    /// assert_eq!(token_stream.consume(), Some(&1));
+    /// assert_eq!(token_stream.cursor(), 1);
+    /// assert_eq!(token_stream.consume(), Some(&2));
+    /// assert_eq!(token_stream.cursor(), 2);
+    /// assert_eq!(token_stream.consume(), Some(&3));
+    /// assert_eq!(token_stream.cursor(), 3);
+    /// ```
+    pub fn cursor(&self) -> usize {
+        self.cursor
+    }
+
+    /// Creates a `Span` from two marks
+    ///
+    /// # Examples
+    ///
     /// ```rust
     /// use slk_tokenstream::TokenStream;
     /// let tokens = &[1, 2, 3];
     /// let mut token_stream = TokenStream::new(tokens);
-    /// 
+    ///
     /// let m1 = token_stream.mark();
     /// token_stream.consume();
     /// let m2 = token_stream.mark();
-    /// 
+    ///
     /// let span = token_stream.span_from_marks(m1, m2);
-    /// 
+    ///
     /// assert_eq!(token_stream.slice_from_span(&span), &[1]);
     /// ```
     pub fn span_from_marks(&self, start: Mark, end: Mark) -> TokenstreamSpan {
         TokenstreamSpan::new(start, end)
     }
-
+    /// Sets the cursor to `new_value` without bounds checking.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that `new_value` is a valid cursor position
+    /// (i.e. `new_value <= self.data.len()`). Using an out-of-bounds value
+    /// may lead to panics or undefined behavior in subsequent operations.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    ///
+    ///
+    /// unsafe { token_stream.set_cursor_unchecked(1); }
+    /// assert_eq!(token_stream.position(), 1);
+    /// ```
     pub unsafe fn set_cursor_unchecked(&mut self, new_value: usize) {
         self.cursor = new_value;
     }
 
+    /// Sets the cursor to `new_value`, clamping it within the valid range
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    ///
+    /// token_stream.set_cursor(1);
+    /// assert_eq!(token_stream.position(), 1);
+    ///
+    ///
+    /// token_stream.set_cursor(100);
+    /// assert_eq!(token_stream.position(), 3);
+    /// ```
     pub fn set_cursor(&mut self, new_value: usize) {
         self.cursor = new_value.min(self.data.len());
     }

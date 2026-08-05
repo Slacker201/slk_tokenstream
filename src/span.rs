@@ -1,8 +1,4 @@
-use core::marker::PhantomData;
-
 use crate::Mark;
-
-
 
 pub struct TokenstreamSpan {
     start: Mark,
