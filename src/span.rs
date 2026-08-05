@@ -18,4 +18,7 @@ impl TokenstreamSpan {
     pub fn end(&self) -> Mark {
         self.end
     }
+    pub fn to_usize(&self) -> (usize, usize) {
+        (self.start.position(), self.end.position())
+    }
 }

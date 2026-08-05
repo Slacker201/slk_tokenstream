@@ -57,6 +57,43 @@ impl<'a, T> TokenStream<'a, T> {
     pub fn consume(&mut self) -> Option<&T> {
         self.data.get(self.cursor).inspect(|_| self.cursor += 1)
     }
+
+    /// Returns the item at the cursor and advances the cursor if the function evaluates to true,
+    /// otherwise rewinds the cursor to the provided mark
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    ///
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    ///
+    /// let mark = token_stream.mark();
+    /// assert_eq!(mark.position(), 0);
+    ///
+    /// assert_eq!(token_stream.expect(|token| *token == 1, &mark), Some(&1));
+    /// assert_eq!(token_stream.position(), 1);
+    /// assert_eq!(token_stream.expect(|token| *token == 3, &mark), None);
+    /// assert_eq!(token_stream.position(), 0);
+    /// ```
+    /// ```
+    pub fn expect<F: Fn(&T) -> bool>(&mut self, f: F, mark: &Mark) -> Option<&T> {
+        let t = if let Some(t) = self.data.get(self.cursor) {
+            t
+        } else {
+            self.reset(mark);
+            return None;
+        };
+        if f(t) {
+            self.skip();
+            return Some(t);
+        } else {
+            self.reset(mark);
+            return None;
+        }
+    }
+
     /// Peeks at the token at the current cursor position without advancing the cursor.
     ///
     /// # Examples
