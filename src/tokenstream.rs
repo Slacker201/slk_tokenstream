@@ -561,7 +561,7 @@ impl<'a, T> TokenStream<'a, T> {
     /// token_stream.skip();
     /// assert_eq!(token_stream.peek_if_else_err(|c| *c == 1), Err(Some(&2)));
     /// ```
-    pub fn peek_if_else_err<F: Fn(&T) -> bool>(&mut self, f: F) -> Result<&T, Option<&T>> {
+    pub fn peek_if_else_err<F: Fn(&T) -> bool>(&self, f: F) -> Result<&T, Option<&T>> {
         let ok = self.peek().and_then(|c| Some(f(c))).unwrap_or(false);
 
         if ok { self.peek().ok_or(None) } else { 
