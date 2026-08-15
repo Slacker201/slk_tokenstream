@@ -518,4 +518,83 @@ impl<'a, T> TokenStream<'a, T> {
     pub fn set_cursor(&mut self, new_value: usize) {
         self.cursor = new_value.min(self.data.len());
     }
+
+    /// Advances the cursor and returns `Ok(&T)` if the next item exists and the closure returns true
+    /// Returns `Err(Some(&T))` if the next item exists and the closure returns false
+    /// Returns `Err(None)` if the item does not exist
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// 
+    /// assert_eq!(token_stream.consume_if_else_err(|c| *c == 1), Ok(&1));
+    /// assert_eq!(token_stream.consume_if_else_err(|c| *c == 1), Err(Some(&2)));
+    /// assert_eq!(token_stream.consume_if_else_err(|c| *c == 1), Err(Some(&2)));
+    /// ```
+    pub fn consume_if_else_err<F: Fn(&T) -> bool>(&mut self, f: F) -> Result<&T, Option<&T>> {
+        let ok = self.peek().and_then(|c| Some(f(c))).unwrap_or(false);
+
+        if ok { self.consume().ok_or(None) } else { 
+            match self.peek() {
+                Some(c) => Err(Some(c)),
+                None => Err(None),
+            }
+         }
+    }
+
+    /// Returns `Ok(&T)` if the next item exists and the closure returns true
+    /// Returns `Err(Some(&T))` if the next item exists and the closure returns false
+    /// Returns `Err(None)` if the item does not exist
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// 
+    /// assert_eq!(token_stream.peek_if_else_err(|c| *c == 1), Ok(&1));
+    /// assert_eq!(token_stream.peek_if_else_err(|c| *c == 1), Ok(&1));
+    /// token_stream.skip();
+    /// assert_eq!(token_stream.peek_if_else_err(|c| *c == 1), Err(Some(&2)));
+    /// ```
+    pub fn peek_if_else_err<F: Fn(&T) -> bool>(&mut self, f: F) -> Result<&T, Option<&T>> {
+        let ok = self.peek().and_then(|c| Some(f(c))).unwrap_or(false);
+
+        if ok { self.peek().ok_or(None) } else { 
+            match self.peek() {
+                Some(c) => Err(Some(c)),
+                None => Err(None),
+            }
+         }
+    }
+
+    /// Advances the cursor if the next item exists and the closure returns true
+    /// Returns `Err(Some(&T))` if the next item exists and the closure returns false
+    /// Returns `Err(None)` if the item does not exist
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// 
+    /// assert_eq!(token_stream.skip_if_else_err(|c| *c == 1), Ok(()));
+    /// assert_eq!(token_stream.skip_if_else_err(|c| *c == 1), Err(Some(&2)));
+    /// assert_eq!(token_stream.skip_if_else_err(|c| *c == 1), Err(Some(&2)));
+    /// ```
+    pub fn skip_if_else_err<F: Fn(&T) -> bool>(&mut self, f: F) -> Result<(), Option<&T>> {
+        let ok = self.peek().and_then(|c| Some(f(c))).unwrap_or(false);
+
+        if ok { self.skip(); Ok(()) } else { 
+            match self.peek() {
+                Some(c) => Err(Some(c)),
+                None => Err(None),
+            }
+         }
+    }
 }
