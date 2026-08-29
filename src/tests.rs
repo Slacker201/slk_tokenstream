@@ -41,9 +41,9 @@ fn bookmarks_correctly_return_cursor_to_original_position() {
     ts.consume();
     let mark2 = ts.mark();
     ts.consume();
-    assert_eq!(ts.reset(&mark), 3);
+    assert_eq!(ts.reset(mark), 3);
     assert_eq!(ts.position(), 1);
-    ts.reset(&mark2);
+    ts.reset(mark2);
     assert_eq!(ts.position(), 2);
     assert_eq!(ts.consume(), Some(&3));
 }

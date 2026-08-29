@@ -11,7 +11,7 @@
 ///
 /// token_stream.advance(5);
 /// assert_eq!(token_stream.peek(), None);
-/// token_stream.reset(&mark);
+/// token_stream.reset(mark);
 /// assert_eq!(token_stream.peek(), Some(&1));
 /// ```
 #[derive(Debug, Copy, Clone)]
