@@ -1,5 +1,6 @@
 use crate::Mark;
 
+#[derive(Debug, Clone, Copy, Hash)]
 pub struct TokenstreamSpan {
     start: Mark,
     end: Mark,

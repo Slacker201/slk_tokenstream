@@ -14,7 +14,7 @@
 /// token_stream.reset(mark);
 /// assert_eq!(token_stream.peek(), Some(&1));
 /// ```
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone, Copy, Hash)]
 pub struct Mark {
     position: usize,
 }
