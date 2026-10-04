@@ -9,5 +9,3 @@ repository = "https://github.com/slacker201/slk_tokenstream"
 documentation = "https://docs.rs/slk-tokenstream"
 keywords = ["token", "lexer", "parser", "tokenstream"]
 categories = ["parsing"]
-
-[dependencies]

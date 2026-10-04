@@ -1,4 +1,4 @@
-use crate::TokenStream;
+use crate::{Mark, TokenStream};
 
 impl<'a, T> TokenStream<'a, T> {
     /// Returns `Ok(&T)` if the next item exists and the closure returns true
@@ -79,5 +79,37 @@ impl<'a, T> TokenStream<'a, T> {
     /// ```
     pub fn peek_offset(&self, offset: usize) -> Option<&T> {
         self.data.get(self.cursor.saturating_add(offset))
+    }
+
+    /// Returns the slice if it matches
+    /// 
+    /// # Examples
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3, 4];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// let test_slice: &[i32] = &[1, 2, 3];
+    /// 
+    /// 
+    /// assert_eq!(token_stream.peek_if_matches_slice(test_slice), Some(test_slice));
+    ///
+    /// let test_slice = &[2, 3, 4];
+    /// 
+    /// assert_eq!(token_stream.peek_if_matches_slice(test_slice), None);
+    /// ```
+    pub fn peek_if_matches_slice(&self, slice: &[T]) -> Option<&[T]>
+    where
+        T: PartialEq,
+    {
+        let start = self.mark();
+
+        let end = Mark::new(start.position() + slice.len());
+
+        let our_slice = self.slice_from_marks(start, end);
+        if our_slice == slice {
+            Some(our_slice)
+        } else {
+            None
+        }
     }
 }

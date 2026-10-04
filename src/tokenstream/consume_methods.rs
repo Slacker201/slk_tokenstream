@@ -142,4 +142,36 @@ impl<'a, T> TokenStream<'a, T> {
             return None;
         }
     }
+
+    /// Advances the cursor by the length of the slice and returns it if it matches
+    /// 
+    /// # Examples
+    /// ```rust
+    /// use slk_tokenstream::TokenStream;
+    /// let tokens = &[1, 2, 3, 4];
+    /// let mut token_stream = TokenStream::new(tokens);
+    /// let test_slice: &[i32] = &[1, 2, 3];
+    /// 
+    /// 
+    /// assert_eq!(token_stream.consume_if_matches_slice(test_slice), Some(test_slice));
+    /// assert_eq!(token_stream.peek(), Some(&4));
+    /// assert_eq!(token_stream.consume_if_matches_slice(test_slice), None);
+    /// assert_eq!(token_stream.peek(), Some(&4));
+    /// ```
+    pub fn consume_if_matches_slice(&mut self, slice: &[T]) -> Option<&[T]>
+    where
+        T: PartialEq,
+    {
+        let start = self.mark();
+        self.advance(slice.len());
+        let end = self.mark();
+        
+        if self.slice_from_marks(start, end) == slice {
+            self.reset(end);
+            Some(self.slice_from_marks(start, end))
+        } else {
+            self.reset(start);
+            None
+        }
+    }
 }
